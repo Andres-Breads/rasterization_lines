@@ -216,17 +216,17 @@ function sketch(processing) {
     }
 
     processing.setup = function(){
-      processing.frameRate(2); // fps
-		  processing.size(WIDTH, HEIGHT);
+        processing.frameRate(2); // fps
+        processing.size(WIDTH, HEIGHT);
     }
     processing.drawGame = function(world){
-      processing.background(255,255,0);
-      processing.strokeWeight(4);
-      drawLineDDA(750, 100, 200, 300);
-      drawLine(200, 350, 750, 150);
-      drawLineBasic(200, 400, 750, 200);
-      drawCircleMidPpoint(100, 400, 50);
-      drawCircleBres(100, 600, 50);
+        processing.background(255,255,0);
+        processing.strokeWeight(4);
+        drawLineDDA(750, 100, 200, 300);
+        drawLine(200, 350, 750, 150);
+        drawLineBasic(200, 400, 750, 200);
+        drawCircleMidPpoint(100, 400, 50);
+        drawCircleBres(100, 600, 50);
     }
 
     processing.onTic = function(world) {
@@ -282,3 +282,16 @@ function sketch(processing) {
 
 const canvas = document.getElementById("canvas");
 const instance = new Processing(canvas, sketch);
+
+window.onload = function() {
+    document.getElementById('btn-draw-basic').addEventListener('click', function() {
+        let x1, y1, x2, y2;
+        x1 = Number(document.getElementById('initial-x').value);
+        y1 = Number(document.getElementById('initial-y').value);
+        x2 = Number(document.getElementById('final-x').value);
+        y2 = Number(document.getElementById('final-y').value);
+
+        const canvas = document.getElementById("canvas");
+        const instance = new Processing(canvas, sketch);
+    }); 
+};

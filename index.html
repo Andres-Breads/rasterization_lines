@@ -1,9 +1,132 @@
 <html>
     <head>
-        <link href="styles.css" rel="stylesheet" type="text/css" />
+        <link href="styles.css" rel="stylesheet"/>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        <canvas id="canvas" width="300" height="300"></canvas>
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Rasterización de líneas y circulos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <canvas id="canvas"></canvas>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Dibujar una línea</h4>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="initial-x">X inicial</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon1">x0</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="initial-x" placeholder="X inicial" aria-describedby="form-addon1">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="initial-y">Y inicial</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon2">y0</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="initial-y" placeholder="Y inicial" aria-describedby="form-addon2">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="final-x">X final</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon3">xF</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="final-x" placeholder="X final" aria-describedby="form-addon3">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="final-y">Y final</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon4">yF</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="final-y" placeholder="Y final" aria-describedby="form-addon4">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-success" id="btn-draw-basic">Dibujar con Basic</button>
+                                                    <button type="button" class="btn btn-success" id="btn-draw-dda">Dibujar con DDA</button>
+                                                    <button type="button" class="btn btn-success" id="btn-draw-bres">Dibujar con Bresenham</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <div class="col">
+                                            <h4>Dibujar un círculo</h4>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="central-x">X centro</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon5">xC</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="central-x" placeholder="X centro" aria-describedby="form-addon5">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="central-y">Y centro</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon6">yC</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="central-y" placeholder="Y centro" aria-describedby="form-addon6">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="radius">Radio</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="form-addon7">r</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="radius" placeholder="Radio" aria-describedby="form-addon7">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button type="button" class="btn btn-success" id="btn-draw-circle-mid">Dibujar con Mid Point</button>
+                                                    <button type="button" class="btn btn-success" id="btn-draw-circle-bres">Dibujar con Bresenham</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="./js/processing.js"></script>
         <script src="./script.js"></script>
     </body>
