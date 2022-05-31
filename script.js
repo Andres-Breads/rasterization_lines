@@ -1,6 +1,10 @@
 const WIDTH = 800;
 const HEIGHT = 800;
 
+var chosenRendering = '';
+var initialX = 0, initialY = 0, finalX = 0, finalY = 0;
+var centerX = 0, centerY = 0, radius = 0;
+
 function sketch(processing) {
 
     this.drawLineBasic = (x1, y1, x2, y2) => {
@@ -125,7 +129,7 @@ function sketch(processing) {
         }
     }
 
-    this.drawCircleMidPpoint = (xC, yC, r) => {
+    this.drawCircleMidPoint = (xC, yC, r) => {
         let x, y, p;
         x = r; y = 0;
         p = 1 - r;
@@ -216,12 +220,30 @@ function sketch(processing) {
     processing.drawGame = function(world) {
         processing.background(255,255,0);
         processing.strokeWeight(4);
-        // TODO: convert this to receive global args
-        context.drawLineDDA(750, 100, 200, 300);
-        context.drawLine(200, 350, 750, 150);
-        context.drawLineBasic(200, 400, 750, 200);
-        context.drawCircleMidPpoint(100, 400, 50);
-        context.drawCircleBres(100, 600, 50);
+        switch (chosenRendering) {
+            case 'line-basic':
+                context.drawLineBasic(initialX, initialY, finalX, finalY);
+                break;
+            
+            case 'line-DDA':
+                context.drawLineDDA(initialX, initialY, finalX, finalY);
+                break;
+
+            case 'line-bres':
+                context.drawLine(initialX, initialY, finalX, finalY);
+                break;
+
+            case 'circle-mid-point':
+                context.drawCircleMidPoint(centerX, centerY, radius);
+                break;
+
+            case 'circle-bres':
+                context.drawCircleBres(centerX, centerY, radius);
+                break;
+
+            default:
+                break;
+        }
     }
 
     processing.onTic = function(world) {
@@ -280,42 +302,42 @@ const instance = new Processing(canvas, sketch);
 
 window.onload = function() {
     document.getElementById('btn-draw-basic').addEventListener('click', function() {
-        let x1, y1, x2, y2;
-        x1 = Number(document.getElementById('initial-x').value);
-        y1 = Number(document.getElementById('initial-y').value);
-        x2 = Number(document.getElementById('final-x').value);
-        y2 = Number(document.getElementById('final-y').value);
+        chosenRendering = 'line-basic';
+        initialX = Number(document.getElementById('initial-x').value);
+        initialY = Number(document.getElementById('initial-y').value);
+        finalX = Number(document.getElementById('final-x').value);
+        finalY = Number(document.getElementById('final-y').value);
 
         const canvas = document.getElementById("canvas");
         const instance = new Processing(canvas, sketch);
     });
 
     document.getElementById('btn-draw-dda').addEventListener('click', function() {
-        let x1, y1, x2, y2;
-        x1 = Number(document.getElementById('initial-x').value);
-        y1 = Number(document.getElementById('initial-y').value);
-        x2 = Number(document.getElementById('final-x').value);
-        y2 = Number(document.getElementById('final-y').value);
+        chosenRendering = 'line-DDA';
+        initialX = Number(document.getElementById('initial-x').value);
+        initialY = Number(document.getElementById('initial-y').value);
+        finalX = Number(document.getElementById('final-x').value);
+        finalY = Number(document.getElementById('final-y').value);
 
         const canvas = document.getElementById("canvas");
         const instance = new Processing(canvas, sketch);
     });
 
     document.getElementById('btn-draw-bres').addEventListener('click', function() {
-        let x1, y1, x2, y2;
-        x1 = Number(document.getElementById('initial-x').value);
-        y1 = Number(document.getElementById('initial-y').value);
-        x2 = Number(document.getElementById('final-x').value);
-        y2 = Number(document.getElementById('final-y').value);
+        chosenRendering = 'line-bres';
+        initialX = Number(document.getElementById('initial-x').value);
+        initialY = Number(document.getElementById('initial-y').value);
+        finalX = Number(document.getElementById('final-x').value);
+        finalY = Number(document.getElementById('final-y').value);
 
         const canvas = document.getElementById("canvas");
         const instance = new Processing(canvas, sketch);
     });
 
     document.getElementById('btn-draw-circle-mid').addEventListener('click', function() {
-        let xC, yC, radius;
-        xC = Number(document.getElementById('central-x').value);
-        yC = Number(document.getElementById('central-y').value);
+        chosenRendering = 'circle-mid-point';
+        centerX = Number(document.getElementById('central-x').value);
+        centerY = Number(document.getElementById('central-y').value);
         radius = Number(document.getElementById('radius').value);
 
         const canvas = document.getElementById("canvas");
@@ -323,9 +345,9 @@ window.onload = function() {
     });
 
     document.getElementById('btn-draw-circle-bres').addEventListener('click', function() {
-        let xC, yC, radius;
-        xC = Number(document.getElementById('central-x').value);
-        yC = Number(document.getElementById('central-y').value);
+        chosenRendering = 'circle-bres';
+        centerX = Number(document.getElementById('central-x').value);
+        centerY = Number(document.getElementById('central-y').value);
         radius = Number(document.getElementById('radius').value);
 
         const canvas = document.getElementById("canvas");
