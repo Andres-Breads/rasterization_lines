@@ -138,12 +138,12 @@ function sketch(processing) {
         x = r; y = 0;
         p = 1 - r;
 
-        processing.point(x+xC, y+yC);
+        processing.point(xC+x, yC+y);
 
         if (r > 0) {
-            processing.point(x+xC, -y+yC);
-            processing.point(y+xC, x+yC);
-            processing.point(-y+xC, x+yC);
+            processing.point(xC+x, yC-y);
+            processing.point(xC+y, yC+x);
+            processing.point(xC-y, yC+x);
         }
 
         while (x > y) {
@@ -164,20 +164,54 @@ function sketch(processing) {
             // Printing the generated point and its
             // reflection in the other octants after
             // translation
-            processing.point(x+xC, y+yC);
-            processing.point(-x+xC, y+yC);
-            processing.point(x+xC, -y+yC);
-            processing.point(-x+xC, -y+yC);
+            processing.point(xC+x, yC+y);
+            processing.point(xC-x, yC+y);
+            processing.point(xC+x, yC-y);
+            processing.point(xC-x, yC-y);
 
             // If the generated point is on the
             // line x = y then the perimeter points
             // have already been printed
             if (x != y) {
-                processing.point(y+xC, x+yC);
-                processing.point(-y+xC, x+yC);
-                processing.point(y+xC, -x+yC);
-                processing.point(-y+xC, -x+yC);
+                processing.point(xC+y, yC+x);
+                processing.point(xC-y, yC+x);
+                processing.point(xC+y, yC-x);
+                processing.point(xC-y, yC-x);
             }
+        }
+    }
+
+    const drawCircle = (xC, yC, x, y) => {
+        processing.point(xC+x, yC+y);
+        processing.point(xC-x, yC+y);
+        processing.point(xC+x, yC-y);
+        processing.point(xC-x, yC-y);
+        processing.point(xC+y, yC+x);
+        processing.point(xC-y, yC+x);
+        processing.point(xC+y, yC-x);
+        processing.point(xC-y, yC-x);
+    }
+
+    const drawCircleBres = (xC, yC, r) => {
+        let x, d;
+        x = 0; y = r;
+        d = 3 - 2 * r;
+        drawCircle(xC, yC, x, y);
+        while (y >= x) {
+            // for each pixel we will
+            // draw all eight pixels
+            x++;
+
+            // check for decision parameter
+            // and correspondingly
+            // update d, x, y
+            if (d > 0) {
+                y--;
+                d = d + 4 * (x - y) + 10;
+            } else {
+                d = d + 4 * x + 6;
+            }
+            drawCircle(xC, yC, x, y);
         }
     }
 
@@ -192,6 +226,7 @@ function sketch(processing) {
       drawLine(200, 350, 750, 150);
       drawLineBasic(200, 400, 750, 200);
       drawCircleMidPpoint(100, 400, 50);
+      drawCircleBres(100, 600, 50);
     }
 
     processing.onTic = function(world) {
