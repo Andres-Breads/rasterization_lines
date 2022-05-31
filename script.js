@@ -21,7 +21,41 @@ function sketch(processing) {
         }
     }
 
-    const draw_line = (x1, y1, x2, y2) => {
+    const drawLineDDA = (x1, y1, x2, y2) => {
+        let x, y, dx, dy, steps, i;
+
+        dx = x2 - x1;
+        dy = y2 - y1;
+
+        if (dx >= dy) {
+            steps = dx;
+        } else {
+            steps = dy;
+        }
+
+        dx = dx/steps;
+        dy = dy/steps;
+        x = x1;
+        y = y1;
+        i = 1;
+        while (i <= steps) {
+            processing.point(x, y);
+            x += dx;
+            y += dy;
+            i++;
+        }
+    }
+
+    /**
+     * Draws a line based on Bresenham’s Algorithm
+     * 
+     * @author JavaScript Teacher
+     * @param {integer} x1 
+     * @param {integer} y1 
+     * @param {integer} x2 
+     * @param {integer} y2 
+     */
+    const drawLine = (x1, y1, x2, y2) => {
         // Iterators, counters required by algorithm
         let x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
         // Calculate line deltas
@@ -33,8 +67,8 @@ function sketch(processing) {
         // Calculate error intervals for both axis
         px = 2 * dy1 - dx1;
         py = 2 * dx1 - dy1;
+        
         // The line is X-axis dominant
-
         if (dy1 <= dx1) {
             // Line is drawn left to right
             if (dx >= 0) {
@@ -76,7 +110,7 @@ function sketch(processing) {
                 if (py <= 0) {
                     py = py + 2 * dx1;
                 } else {
-                    if ((dx < 0 && dy<0) || (dx > 0 && dy > 0)) {
+                    if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0)) {
                         x = x + 1;
                     } else {
                         x = x - 1;
@@ -97,7 +131,9 @@ function sketch(processing) {
     processing.drawGame = function(world){
       processing.background(255,255,0);
       processing.strokeWeight(4);
-      draw_line(100, 500, 750, 100);
+      //drawLine(100, 500, 750, 100);
+      drawLineDDA(200, 300, 750, 100);
+      drawLine(200, 350, 750, 150);
     }
 
     processing.onTic = function(world) {
