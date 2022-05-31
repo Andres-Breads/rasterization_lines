@@ -133,6 +133,54 @@ function sketch(processing) {
         }
     }
 
+    const drawCircleMidPpoint = (xC, yC, r) => {
+        let x, y, p;
+        x = r; y = 0;
+        p = 1 - r;
+
+        processing.point(x+xC, y+yC);
+
+        if (r > 0) {
+            processing.point(x+xC, -y+yC);
+            processing.point(y+xC, x+yC);
+            processing.point(-y+xC, x+yC);
+        }
+
+        while (x > y) {
+            y++;
+
+            // Mid-point is inside or on the perimeter
+            if (p <= 0) {
+                p = p + 2 * y + 1;
+            } else { // Mid-point is outside the perimeter
+                x--;
+                p = p + 2 * y - 2 * x + 1;
+            }
+
+            // All the perimeter points have already
+            // been printed
+            if (x < y) break;
+
+            // Printing the generated point and its
+            // reflection in the other octants after
+            // translation
+            processing.point(x+xC, y+yC);
+            processing.point(-x+xC, y+yC);
+            processing.point(x+xC, -y+yC);
+            processing.point(-x+xC, -y+yC);
+
+            // If the generated point is on the
+            // line x = y then the perimeter points
+            // have already been printed
+            if (x != y) {
+                processing.point(y+xC, x+yC);
+                processing.point(-y+xC, x+yC);
+                processing.point(y+xC, -x+yC);
+                processing.point(-y+xC, -x+yC);
+            }
+        }
+    }
+
     processing.setup = function(){
       processing.frameRate(2); // fps
 		  processing.size(WIDTH, HEIGHT);
@@ -143,6 +191,7 @@ function sketch(processing) {
       drawLineDDA(750, 100, 200, 300);
       drawLine(200, 350, 750, 150);
       drawLineBasic(200, 400, 750, 200);
+      drawCircleMidPpoint(100, 400, 50);
     }
 
     processing.onTic = function(world) {
