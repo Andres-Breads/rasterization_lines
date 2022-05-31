@@ -3,20 +3,29 @@ const HEIGHT = 800;
 
 function sketch(processing) {
 
-    function drawLineBasic(x1, y1, x2, y2) {
-        let dx = Math.abs(x2-x1);
-        let dy = Math.abs(y2-y1);
-        let m = dy/dx;
-        if (m >= 0 && m <= 1) {
-            let xi, yi;
-            let increment = x1;
-            yi = y1;
-            while (increment <= x2) {
-                xi = increment
-                //console.log(`(${xi}, ${yi})`)
-                yi = Math.round(yi + m);
-                processing.point(xi, yi);
-                increment++;
+    const drawLineBasic = (x1, y1, x2, y2) => {
+        let x, y, dx, dy, m, i;
+        dx = (x2 - x1);
+        dy = (y2 - y1);
+        m = dy/dx;
+        /* console.log({
+            'x1': x1,
+            'y1': y1,
+            'x2': x2,
+            'y2': y2,
+            'dy': dy,
+            'dx': dx,
+            'm': m,
+        }); */
+        /* if (m >= 0 && m <= 1)  */{
+            i = x1;
+            y = y1;
+            while (i <= x2) {
+                x = i
+                processing.point(x, y);
+                y = y1 + dy * (x - x1) / dx;
+                // y = Math.round(y + m);
+                i++;
             }
         }
     }
@@ -131,9 +140,9 @@ function sketch(processing) {
     processing.drawGame = function(world){
       processing.background(255,255,0);
       processing.strokeWeight(4);
-      //drawLine(100, 500, 750, 100);
-      drawLineDDA(200, 300, 750, 100);
+      drawLineDDA(750, 100, 200, 300);
       drawLine(200, 350, 750, 150);
+      drawLineBasic(200, 400, 750, 200);
     }
 
     processing.onTic = function(world) {
