@@ -3,20 +3,12 @@ const HEIGHT = 800;
 
 function sketch(processing) {
 
-    const drawLineBasic = (x1, y1, x2, y2) => {
+    this.drawLineBasic = (x1, y1, x2, y2) => {
         let x, y, dx, dy, m, i;
         dx = (x2 - x1);
         dy = (y2 - y1);
         m = dy/dx;
-        /* console.log({
-            'x1': x1,
-            'y1': y1,
-            'x2': x2,
-            'y2': y2,
-            'dy': dy,
-            'dx': dx,
-            'm': m,
-        }); */
+        /* console.log({'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2, 'dy': dy, 'dx': dx, 'm': m}); */
         /* if (m >= 0 && m <= 1)  */{
             i = x1;
             y = y1;
@@ -30,7 +22,7 @@ function sketch(processing) {
         }
     }
 
-    const drawLineDDA = (x1, y1, x2, y2) => {
+    this.drawLineDDA = (x1, y1, x2, y2) => {
         let x, y, dx, dy, steps, i;
 
         dx = x2 - x1;
@@ -64,7 +56,7 @@ function sketch(processing) {
      * @param {integer} x2 
      * @param {integer} y2 
      */
-    const drawLine = (x1, y1, x2, y2) => {
+    this.drawLine = (x1, y1, x2, y2) => {
         // Iterators, counters required by algorithm
         let x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
         // Calculate line deltas
@@ -133,7 +125,7 @@ function sketch(processing) {
         }
     }
 
-    const drawCircleMidPpoint = (xC, yC, r) => {
+    this.drawCircleMidPpoint = (xC, yC, r) => {
         let x, y, p;
         x = r; y = 0;
         p = 1 - r;
@@ -192,7 +184,7 @@ function sketch(processing) {
         processing.point(xC-y, yC-x);
     }
 
-    const drawCircleBres = (xC, yC, r) => {
+    this.drawCircleBres = (xC, yC, r) => {
         let x, d;
         x = 0; y = r;
         d = 3 - 2 * r;
@@ -219,14 +211,17 @@ function sketch(processing) {
         processing.frameRate(2); // fps
         processing.size(WIDTH, HEIGHT);
     }
-    processing.drawGame = function(world){
+
+    let context = this
+    processing.drawGame = function(world) {
         processing.background(255,255,0);
         processing.strokeWeight(4);
-        drawLineDDA(750, 100, 200, 300);
-        drawLine(200, 350, 750, 150);
-        drawLineBasic(200, 400, 750, 200);
-        drawCircleMidPpoint(100, 400, 50);
-        drawCircleBres(100, 600, 50);
+        // TODO: convert this to receive global args
+        context.drawLineDDA(750, 100, 200, 300);
+        context.drawLine(200, 350, 750, 150);
+        context.drawLineBasic(200, 400, 750, 200);
+        context.drawCircleMidPpoint(100, 400, 50);
+        context.drawCircleBres(100, 600, 50);
     }
 
     processing.onTic = function(world) {
@@ -293,5 +288,47 @@ window.onload = function() {
 
         const canvas = document.getElementById("canvas");
         const instance = new Processing(canvas, sketch);
-    }); 
+    });
+
+    document.getElementById('btn-draw-dda').addEventListener('click', function() {
+        let x1, y1, x2, y2;
+        x1 = Number(document.getElementById('initial-x').value);
+        y1 = Number(document.getElementById('initial-y').value);
+        x2 = Number(document.getElementById('final-x').value);
+        y2 = Number(document.getElementById('final-y').value);
+
+        const canvas = document.getElementById("canvas");
+        const instance = new Processing(canvas, sketch);
+    });
+
+    document.getElementById('btn-draw-bres').addEventListener('click', function() {
+        let x1, y1, x2, y2;
+        x1 = Number(document.getElementById('initial-x').value);
+        y1 = Number(document.getElementById('initial-y').value);
+        x2 = Number(document.getElementById('final-x').value);
+        y2 = Number(document.getElementById('final-y').value);
+
+        const canvas = document.getElementById("canvas");
+        const instance = new Processing(canvas, sketch);
+    });
+
+    document.getElementById('btn-draw-circle-mid').addEventListener('click', function() {
+        let xC, yC, radius;
+        xC = Number(document.getElementById('central-x').value);
+        yC = Number(document.getElementById('central-y').value);
+        radius = Number(document.getElementById('radius').value);
+
+        const canvas = document.getElementById("canvas");
+        const instance = new Processing(canvas, sketch);
+    });
+
+    document.getElementById('btn-draw-circle-bres').addEventListener('click', function() {
+        let xC, yC, radius;
+        xC = Number(document.getElementById('central-x').value);
+        yC = Number(document.getElementById('central-y').value);
+        radius = Number(document.getElementById('radius').value);
+
+        const canvas = document.getElementById("canvas");
+        const instance = new Processing(canvas, sketch);
+    });
 };
