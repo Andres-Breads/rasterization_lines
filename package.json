@@ -1,0 +1,14 @@
+{
+  "name": "primitives",
+  "version": "1.0.0",
+  "description": "test primitives with Processing.js",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "processing": "^0.2.0"
+  }
+}
